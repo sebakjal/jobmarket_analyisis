@@ -37,7 +37,7 @@ SKILLS_WANTED  = ["Databricks or snowflake",
 
 EXPECTED_KEYS = [
     "task_clarity",
-    "seniority_level",
+    "seniority_level_ai",
     "requires_degree_it",
     "mentions_certifications",
     "years_of_experience",
@@ -62,7 +62,7 @@ def clean_json_string(raw_string: str) -> str:
 
 def classify_job_description(job_description: str,
                              delay: int = 5,
-                             max_retries: int = 2) -> str:
+                             max_retries: int = 3) -> str:
     
     prompt = f"""
     Analyze the following job description based on the criteria below.
@@ -78,7 +78,7 @@ def classify_job_description(job_description: str,
 
     1.  "task_clarity": How clear are the specific tasks and responsibilities?
         Allowed values: {CLARITY_LEVELS}
-    2.  "seniority_level": What is the implied seniority based on the description?
+    2.  "seniority_level_ai": What is the implied seniority based on the description?
         Allowed values: {SENIORITY_LEVELS}
         Interpret context (e.g., "lead role", "entry-level").
     3.  "requires_degree_it": Does it explicitly require a Bachelor's or higher degree in IT, Computer Science, or a related STEM field?
@@ -102,7 +102,7 @@ def classify_job_description(job_description: str,
     Required JSON Output Format (example):
     {{
       "task_clarity": "Medium",
-      "seniority_level": "Senior",
+      "seniority_level_ai": "Senior",
       "requires_degree_it": "Yes",
       "mentions_certifications": "No",
       "years_of_experience": "5+",
@@ -115,6 +115,7 @@ def classify_job_description(job_description: str,
     """
     
     for attempt in range(max_retries):
+        time.sleep(delay)
         try:
             print(f"Attempt {attempt + 1}/{max_retries}: Calling Gemini API...")
             response = model.generate_content(prompt)

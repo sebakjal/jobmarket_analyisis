@@ -8,6 +8,7 @@ import random
 from typing import Optional
 # from tqdm import tqdm
 from datetime import date
+from db_functions import *
 
 
 def name_format(job_name):

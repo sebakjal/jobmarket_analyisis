@@ -6,7 +6,8 @@ from pathlib import Path # For easier path handling
 def create_table(df: pl.DataFrame, 
                  table_name: str, 
                  if_exists_strategy: str,
-                 db_file: str):
+                 db_file: str,
+                 dataset: str):
     """
     Function to create a table in DuckDB from a Polars DataFrame.
     
@@ -86,7 +87,8 @@ import os # For potential database file deletion in example
 
 def insert_into_db(df: pl.DataFrame,
                    table_name: str,
-                   db_file: str):
+                   db_file: str,
+                   dataset: str):
     
     # --- Configuration ---
     key_column = "job_url" # IMPORTANT: Set your unique key column name here
@@ -105,19 +107,33 @@ def insert_into_db(df: pl.DataFrame,
     # 2. Ensure the target table exists (create if not)
     #    This uses the schema from the view/DataFrame
     #    LIMIT 0 creates the structure without inserting data initially
-    sql_create_if_not_exists = f"""CREATE TABLE IF NOT EXISTS {table_name}(
-                                title VARCHAR,          
-                                company VARCHAR,
-                                location VARCHAR,
-                                date DATE,
-                                job_url VARCHAR PRIMARY KEY,
-                                job_description VARCHAR,
-                                seniority_level VARCHAR,
-                                employment_type VARCHAR,
-                                job_function VARCHAR,
-                                industries VARCHAR,
-                                );
-                                """
+    if dataset == 'base_data':
+        sql_create_if_not_exists = f"""CREATE TABLE IF NOT EXISTS {table_name}(
+                                    title VARCHAR,          
+                                    company VARCHAR,
+                                    location VARCHAR,
+                                    date DATE,
+                                    job_url VARCHAR PRIMARY KEY,
+                                    job_description VARCHAR,
+                                    seniority_level VARCHAR,
+                                    employment_type VARCHAR,
+                                    job_function VARCHAR,
+                                    industries VARCHAR,
+                                    );
+                                    """
+    elif dataset == 'genai_data':
+        sql_create_if_not_exists = f"""CREATE TABLE IF NOT EXISTS {table_name}(
+                                    job_url VARCHAR PRIMARY KEY,
+                                    task_clarity VARCHAR,
+                                    seniority_level_ai VARCHAR,
+                                    requires_degree_it VARCHAR,
+                                    mentions_certifications VARCHAR,
+                                    years_of_experience VARCHAR,
+                                    is_in_english VARCHAR,
+                                    cloud_preference VARCHAR,
+                                    skills_mentioned VARCHAR[]
+                                    );
+                                    """        
     conn.execute(sql_create_if_not_exists)
     print(f"Executed: {sql_create_if_not_exists} (if table didn't exist)")
 
