@@ -188,8 +188,40 @@ if __name__ == "__main__":
     print("Today's date:", today)
 
     # Export the DataFrame to a Parquet file
-    df.write_parquet(f"jobs_from_{date_posted_in_days}_days_{today}.parquet")
-    print('Exported to Parquet file')
+    try:
+        df.write_parquet(f"jobs_from_{date_posted_in_days}_days_{today}.parquet")
+        print('Exported to Parquet file')
 
-    # Use LLM to classify job
-    #TODO
+    except Exception as e:
+        print(f'Error exporting to Parquet file: {e}')
+
+    # Insert base data into database
+    try:
+        insert_into_db(df, 'test_table', 'my_project.duckdb', 'base_data')
+        print(f'Inserted {len(df)} jobs into base data DB')
+
+    except Exception as e:
+        print(f'Error inserting into database: {e}')
+
+
+    # Use LLM to classify jobs
+    try:
+        genai_list: list[dict] = []
+        for row in df.rows(named=True):
+            
+            genai_data: dict = {}
+            genai_data.update(classify_job_description(row['job_description']))
+            genai_data.update({'job_url': row['job_url']})
+            genai_list.append(genai_data)
+
+    except Exception as e:
+        print(f'Error classifying jobs: {e}')
+
+    # Put data into Dataframe then insert to DB
+    df_genai = pl.DataFrame(genai_list)
+    try:
+        insert_into_db(df_genai, 'genai_table', 'my_project.duckdb', 'genai_data')
+        print(f'Inserted {len(df_genai)} jobs into GenAI data DB')
+
+    except Exception as e:
+        print(f'Error inserting GenAI data into database: {e}')
