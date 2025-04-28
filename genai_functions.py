@@ -108,7 +108,7 @@ def classify_job_description(job_description: str,
       "years_of_experience": "5+",
       "is_in_english": "Yes",
       "cloud_preference": "AWS",
-      "skills_mentioned": ["Develop pipelines or ETL/ELT processes", "APIs", "AWS"]
+      "skills_mentioned": ["Develop pipelines or ETL/ELT processes", "APIs", "Migration"]
     }}
 
     Provide ONLY the JSON object below:
