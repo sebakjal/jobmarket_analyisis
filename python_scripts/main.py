@@ -178,7 +178,7 @@ if __name__ == "__main__":
     df = pl.DataFrame(joblist_with_info)
 
     # Show jobs with description
-    df = df.filter(pl.col('job_description') != '').head(2)
+    df = df.filter(pl.col('job_description') != '')
     print(df)
     print(f'Found {len(df)} jobs with description')
         
@@ -196,7 +196,7 @@ if __name__ == "__main__":
 
     # Insert base data into database
     try:
-        insert_into_db(df, 'test_table', '/opt/airflow/output/my_project.duckdb', 'base_data')
+        insert_into_db(df, 'base_table', '/opt/airflow/output/my_project.duckdb', 'base_data')
         print(f'Inserted {len(df)} jobs into base data DB')
 
     except Exception as e:
