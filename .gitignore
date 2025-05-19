@@ -1,0 +1,6 @@
+output/
+logs/
+plugins/
+*.ipynb
+*.duckdb
+python_scripts/__pycache__/

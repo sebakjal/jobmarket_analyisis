@@ -14,7 +14,7 @@ SENIORITY_LEVELS = ["Junior", "Mid-Senior", "Senior", "Lead or greater"]
 IN_ENGLISH = ["Yes", "No"]
 REQUIRES_DEGREE_IT = ["Yes", "No"]
 MENTIONS_CERTIFICATIONS = ["Yes", "No"]
-YEARS_OF_EXPERIENCE = ["0-1", "1+", "2+", "3+", "5+", "7+", "Not Specified"] 
+YEARS_OF_EXPERIENCE = ["0", "1", "2", "3", "4", "5", "6", "7+", "Not Specified"] 
 CLARITY_LEVELS  = ["High", "Medium", "Low"]
 CLOUD_PREFERENCES = ["AWS", "Azure", "GCP", "Other Cloud", "Multiple Clouds", "No Preference", "No Mention"]
 SKILLS_WANTED  = ["Databricks or snowflake",
@@ -88,7 +88,7 @@ def classify_job_description(job_description: str,
         Allowed values: {MENTIONS_CERTIFICATIONS}
     5.  "years_of_experience": What is the minimum years of experience mentioned?
         Allowed values: {YEARS_OF_EXPERIENCE}
-        Interpret phrases like "at least 3 years" as "3+", "5-7 years" as "5+". If not mentioned, use "Not Specified".
+        Interpret phrases like "at least 3 years" as "3", "5-7 years" as "5". If not mentioned, use "Not Specified".
     6.  "is_in_english": Is the primary language of the description English or its mentioned that the job will need you to communicate in English?.
         Allowed values: {IN_ENGLISH}
     7.  "cloud_preference": What is the main cloud platform focus?
@@ -105,7 +105,7 @@ def classify_job_description(job_description: str,
       "seniority_level_ai": "Senior",
       "requires_degree_it": "Yes",
       "mentions_certifications": "No",
-      "years_of_experience": "5+",
+      "years_of_experience": "5",
       "is_in_english": "Yes",
       "cloud_preference": "AWS",
       "skills_mentioned": ["Develop pipelines or ETL/ELT processes", "APIs", "Migration"]
