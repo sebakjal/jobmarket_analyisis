@@ -3,4 +3,5 @@ logs/
 plugins/
 *.ipynb
 *.duckdb
-python_scripts/__pycache__/
+*.parquet
+__pycache__/
