@@ -1,4 +1,4 @@
-API_KEY = "AIzaSyCaIGQDXLA-jmSCRl7NSE64uODswGHQ9tQ"
+API_KEY = ""
 model_version = "gemini-2.0-flash-lite"
 
 date_posted_in_seconds = 604800 # 86400 -> 1 day, 2592000 -> 1 month, 604800 -> 1 week
